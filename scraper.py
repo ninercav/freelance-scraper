@@ -13,7 +13,7 @@ def send_mail(results):
     msg['From'] = 'lifelongmemer@gmail.com'
     msg['To'] = 'leah.iliyav@gmail.com'
     msg['Subject'] = 'New reports from Freelancermap'
-    text = json.dumps(results, indent=2)
+    text = json.dumps(results, indent=2)  # todo: add better formatting
 
     msg.attach(MIMEText(text, 'plain'))
 
@@ -34,8 +34,6 @@ def send_mail(results):
         print("Email sent successfully!")
     except Exception as e:
         print(f"Failed to send email: {e}")
-    # Send an email with the results
-    pass
 
 
 def poll_website(interval=30):

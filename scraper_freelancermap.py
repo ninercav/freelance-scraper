@@ -21,10 +21,10 @@ freelancermap_urls = [
 def start_scraper(url) -> dict:
     # Initialize the Firefox options and set headless mode
     options = Options()
-    options.headless = True  # Run in headless mode for no GUI
+    options.headless = True
 
     # Initialize the WebDriver for Firefox
-    service = FirefoxService(executable_path='geckodriver.exe')  # Update path as needed
+    service = FirefoxService(executable_path='geckodriver.exe')
     driver = webdriver.Firefox(service=service, options=options)
 
     try:
