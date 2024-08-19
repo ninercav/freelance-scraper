@@ -11,13 +11,12 @@ from scraper_gulp import scrape_gulp
 
 
 def send_mail(results):
+    freelancermap_results, gulp_results = results['freelancermap'], results['gulp']
+
     msg = MIMEMultipart()
     msg['From'] = 'lifelongmemer@gmail.com'
     msg['To'] = 'leah.iliyav@gmail.com'
-    msg['Subject'] = f'New reports from freelancermap and gulp ({results.__len__()} new projects found)'
-    text = json.dumps(results, indent=2)
-
-    freelancermap_results, gulp_results = results['freelancermap'], results['gulp']
+    msg['Subject'] = f'New reports from freelancermap and gulp ({freelancermap_results.__len__() + gulp_results.__len__()} projects found)'
 
     freelancermap_html_projects = ""
     gulp_html_projects = ""
