@@ -4,17 +4,16 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.options import Options
 
 # each scraper has its own set of keywords? relocate to separate file?
-relevant_keywords = ['Python', 'Django', 'Flask', 'FastAPI', 'REST', 'API', 'SQL',
-                     'NoSQL', 'PostgreSQL', 'MongoDB', 'DevOps', 'Devops', 'Java', 'Spring Framework', 'Kotlin',
-                     'Microsoft Azure', 'Front End', 'Frontend', 'React', 'Angular', 'Vue', 'JavaScript', 'TypeScript']
+relevant_keywords = ['Full stack', 'Backend', 'Java']
 
-work_type = ['Remote', 'Hybrid']
-work_type_exclude = ['Vor Ort', 'Onsite', 'Festanstellung']
+# work_type = ['Remote', 'Hybrid']
+work_type = []
+# work_type_exclude = ['Vor Ort', 'Onsite', 'Festanstellung']
+work_type_exclude = []
 title_keywords = []
 
 freelancermap_urls = [
-    "https://www.freelancermap.de/projektboerse.html?matchingSkills%5B0%5D=KS120076FGP5WGWYMP0F&countries%5B%5D=1",
-    "https://www.freelancermap.de/projektboerse.html?categories%5B0%5D=1&countries%5B%5D=1&sort=1"
+    'https://www.freelancermap.de/projektboerse.html?projectContractTypes%5B0%5D=contracting&matchingSkills%5B0%5D=KS120076FGP5WGWYMP0F&matchingSkills%5B1%5D=KSFFZBDYXH5XA5QE4E7I&countries%5B%5D=1&sort=1&pagenr=1'
 ]
 
 
@@ -32,7 +31,7 @@ def start_scraper(url) -> dict:
 
         relevant_projects = {}
 
-        print("Number of projects: ", len(driver.find_elements(By.CLASS_NAME, 'project-container')))
+        print("Number of freelancermap projects: ", len(driver.find_elements(By.CLASS_NAME, 'project-container')))
 
         for job in driver.find_elements(By.CLASS_NAME, 'project-container'):
             title = job.find_element(By.CLASS_NAME, 'project-title').text
@@ -46,9 +45,6 @@ def start_scraper(url) -> dict:
                     keywords.append(keyword.text)
 
             # Check if the relevant keywords are in the project
-            if relevant_keywords and not any(keyword in keywords for keyword in relevant_keywords):
-                continue
-
             if work_type and not any(work in location for work in work_type):
                 continue
 
@@ -56,6 +52,9 @@ def start_scraper(url) -> dict:
                 continue
 
             if title_keywords and not any(title_keyword in title for title_keyword in title_keywords):
+                continue
+
+            if relevant_keywords and not any(keyword in keywords for keyword in relevant_keywords):
                 continue
 
             relevant_projects[title] = {
